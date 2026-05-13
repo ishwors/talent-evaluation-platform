@@ -2,7 +2,7 @@ FROM python:3.12-slim
 
 WORKDIR /app
 
-# Install dependencies
+# Install dependencies first (cached layer unless requirements change)
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt
 
@@ -11,6 +11,10 @@ COPY . .
 
 # Create data directory for SQLite
 RUN mkdir -p data
+
+# Create non-root user (principle of least privilege)
+RUN useradd -m appuser && chown -R appuser:appuser /app
+USER appuser
 
 EXPOSE 8000
 

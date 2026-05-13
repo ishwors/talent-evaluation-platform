@@ -1,0 +1,44 @@
+services:
+  backend:
+    build: ./backend
+    container_name: techkraft-backend
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: data/app.db
+      JWT_SECRET_KEY: ${JWT_SECRET_KEY:-change-this-in-production}
+      ACCESS_TOKEN_EXPIRE_MINUTES: "480"
+      CORS_ORIGINS: "http://localhost:5173"
+    volumes:
+      - backend_data:/app/data
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/health')"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: ./frontend
+      args:
+        VITE_API_URL: http://localhost:8000/api
+    container_name: techkraft-frontend
+    ports:
+      - "5173:80"
+    networks:
+      - app-network
+    depends_on:
+      backend:
+        condition: service_healthy
+    restart: unless-stopped
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  backend_data:
