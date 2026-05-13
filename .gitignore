@@ -1,0 +1,59 @@
+# Environment
+.env
+.env.local
+.env.*.local
+
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+dist/
+build/
+*.egg
+.venv
+
+# SQLite database
+*.db
+data/
+
+# Node
+node_modules/
+frontend/dist/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker
+.dockerignore
+
+# Docs
+.cursor/ 
+.antigravity/ 
+.docs/
+.qoder/
+.claude/ 
+.gemini/ 
+.kiro/ 
+.opencode/ 
+.windsurf/ 
+.copilot/ 
+.vscode/ 
+.agent/
+.mcp* 
+.opencode* 
+.windsurf* 
+.cursor* 
+.antigravity* 
+.claude* 
+.gemini* 
+.kiro* 
+
+# Added by code-review-graph
+.code-review-graph/
