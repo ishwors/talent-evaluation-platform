@@ -38,21 +38,42 @@ async def seed_data():
         admin_id = str(uuid.uuid4())
         await db.execute(
             "INSERT INTO users (id, email, password_hash, role, name, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-            (admin_id, "admin@techkraft.com", hash_password("admin123"), "admin", "Admin User", now),
+            (
+                admin_id,
+                "admin@ishwors.com",
+                hash_password("admin123"),
+                "admin",
+                "Admin User",
+                now,
+            ),
         )
 
         # Create reviewer user
         reviewer_id = str(uuid.uuid4())
         await db.execute(
             "INSERT INTO users (id, email, password_hash, role, name, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-            (reviewer_id, "reviewer@techkraft.com", hash_password("reviewer123"), "reviewer", "Jane Reviewer", now),
+            (
+                reviewer_id,
+                "reviewer@ishwors.com",
+                hash_password("reviewer123"),
+                "reviewer",
+                "Jane Reviewer",
+                now,
+            ),
         )
 
         # Create second reviewer
         reviewer2_id = str(uuid.uuid4())
         await db.execute(
             "INSERT INTO users (id, email, password_hash, role, name, created_at) VALUES (?, ?, ?, ?, ?, ?)",
-            (reviewer2_id, "reviewer2@techkraft.com", hash_password("reviewer123"), "reviewer", "Bob Reviewer", now),
+            (
+                reviewer2_id,
+                "reviewer2@ishwors.com",
+                hash_password("reviewer123"),
+                "reviewer",
+                "Bob Reviewer",
+                now,
+            ),
         )
 
         # Create sample candidates
@@ -90,7 +111,9 @@ async def seed_data():
                 "email": "diana@example.com",
                 "role_applied": "DevOps Engineer",
                 "status": "hired",
-                "skills": json.dumps(["Terraform", "Docker", "Kubernetes", "AWS", "CI/CD"]),
+                "skills": json.dumps(
+                    ["Terraform", "Docker", "Kubernetes", "AWS", "CI/CD"]
+                ),
                 "internal_notes": "Exceptional candidate. Offer accepted.",
             },
             {
@@ -135,23 +158,47 @@ async def seed_data():
             await db.execute(
                 """INSERT INTO candidates (id, name, email, role_applied, status, skills, internal_notes, created_at)
                    VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
-                (c["id"], c["name"], c["email"], c["role_applied"], c["status"], c["skills"], c["internal_notes"], now),
+                (
+                    c["id"],
+                    c["name"],
+                    c["email"],
+                    c["role_applied"],
+                    c["status"],
+                    c["skills"],
+                    c["internal_notes"],
+                    now,
+                ),
             )
 
         # Add some sample scores from the reviewers
-        categories = ["Technical Skills", "Communication", "Problem Solving", "Cultural Fit", "Leadership"]
+        categories = [
+            "Technical Skills",
+            "Communication",
+            "Problem Solving",
+            "Cultural Fit",
+            "Leadership",
+        ]
         import random
+
         for i, candidate in enumerate(sample_candidates[:4]):
             for j, cat in enumerate(categories[:3]):
                 await db.execute(
                     "INSERT INTO scores (id, candidate_id, category, score, reviewer_id, note, created_at) VALUES (?, ?, ?, ?, ?, ?, ?)",
-                    (str(uuid.uuid4()), candidate["id"], cat, random.randint(2, 5), reviewer_id, f"Good {cat.lower()} demonstrated.", now),
+                    (
+                        str(uuid.uuid4()),
+                        candidate["id"],
+                        cat,
+                        random.randint(2, 5),
+                        reviewer_id,
+                        f"Good {cat.lower()} demonstrated.",
+                        now,
+                    ),
                 )
 
         await db.commit()
         print("[OK] Database seeded with sample data")
-        print("   Admin: admin@techkraft.com / admin123")
-        print("   Reviewer: reviewer@techkraft.com / reviewer123")
+        print("   Admin: admin@ishwors.com / admin123")
+        print("   Reviewer: reviewer@ishwors.com / reviewer123")
 
 
 @asynccontextmanager
@@ -163,8 +210,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="TechKraft Candidate Scoring Dashboard",
-    description="Internal candidate scoring and review dashboard for TechKraft's recruitment workflow.",
+    title="Candidate Scoring Dashboard",
+    description="Internal candidate scoring and review dashboard for TalentScan's recruitment workflow.",
     version="1.0.0",
     lifespan=lifespan,
 )
@@ -172,7 +219,9 @@ app = FastAPI(
 # CORS configuration for frontend communication
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=os.getenv("CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173").split(","),
+    allow_origins=os.getenv(
+        "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
+    ).split(","),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
