@@ -325,6 +325,7 @@ I was implementing **Server-Sent Events (SSE)** in FastAPI for the stretch-goal 
 
 - **SSE polling-based:** The real-time streaming endpoint polls the database every 2 seconds rather than using a proper pub/sub system. In production, I'd use Redis Pub/Sub or DynamoDB Streams.
 - **No refresh tokens:** The current auth implementation uses only access tokens. A production system would include refresh token rotation.
+- **No rate limiting:** API endpoints have no request throttling. In production, I'd add `slowapi` middleware or use an API gateway (e.g., AWS API Gateway, Cloudflare) with rate limiting rules to prevent brute-force login attempts and endpoint abuse.
 - **SQLite concurrency:** SQLite supports one writer at a time. For a multi-user production deployment, I'd switch to PostgreSQL or DynamoDB.
 - **Basic keyword search:** The current search uses SQL `LIKE` which doesn't support full-text search. For better search, I'd add SQLite FTS5 or use Elasticsearch.
 

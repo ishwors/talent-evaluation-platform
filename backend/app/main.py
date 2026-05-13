@@ -5,6 +5,11 @@ Initializes the database, seeds sample data, and mounts API routers.
 Includes CORS middleware for frontend communication.
 """
 
+# Load .env before any app imports that read environment variables
+from dotenv import load_dotenv
+
+load_dotenv()
+
 import json
 import uuid
 import os
@@ -223,8 +228,8 @@ app.add_middleware(
         "CORS_ORIGINS", "http://localhost:5173,http://127.0.0.1:5173"
     ).split(","),
     allow_credentials=True,
-    allow_methods=["*"],
-    allow_headers=["*"],
+    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+    allow_headers=["Authorization", "Content-Type"],
 )
 
 # Mount routers

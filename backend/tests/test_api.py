@@ -17,6 +17,7 @@ import asyncio
 
 # Use a test-specific database
 os.environ["DATABASE_URL"] = "data/test.db"
+os.environ.setdefault("JWT_SECRET_KEY", "test-secret-key-not-for-production")
 
 # Ensure the backend app is importable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
