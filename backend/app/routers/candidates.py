@@ -15,7 +15,7 @@ from fastapi.responses import StreamingResponse
 import aiosqlite
 
 from app.auth import get_current_user, require_admin
-from app.models import get_db
+from app.models import get_db, DATABASE_URL
 from app.schemas import (
     CandidateListResponse,
     CandidateOut,
@@ -245,7 +245,7 @@ async def stream_scores(
         last_count = 0
         try:
             while True:
-                async with aiosqlite.connect("data/app.db") as poll_db:
+                async with aiosqlite.connect(DATABASE_URL) as poll_db:
                     poll_db.row_factory = aiosqlite.Row
                     
                     if current_user["role"] == "admin":
