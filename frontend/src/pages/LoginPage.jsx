@@ -106,10 +106,9 @@ export default function LoginPage() {
               minLength={6}
             />
           </div>
-
           <button
             type="submit"
-            className="btn btn-primary btn-full"
+            className="btn btn-primary btn-full login-btn"
             disabled={loading}
           >
             {loading ? (

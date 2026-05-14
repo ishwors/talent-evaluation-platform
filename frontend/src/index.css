@@ -2,7 +2,8 @@
    Candidate Scoring Dashboard — Design System
    ══════════════════════════════════════════════════════════════════ */
 
-@import url("https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Epilogue:wght@400;500;600;700&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Mulish :wght@400;500;600;700&display=swap");
 
 /* ── CSS Variables ──────────────────────────────────────────────── */
 :root {
@@ -68,7 +69,7 @@
 
 body {
   font-family:
-    "Inter",
+    "Mulish",
     -apple-system,
     BlinkMacSystemFont,
     sans-serif;
@@ -83,12 +84,23 @@ h1 {
   font-size: 1.75rem;
   font-weight: 700;
   letter-spacing: -0.02em;
+  color: var(--text-primary);
+  font-family:
+    "Epilogue",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 h2 {
   font-size: 1.25rem;
   font-weight: 600;
   letter-spacing: -0.01em;
   color: var(--text-primary);
+  font-family:
+    "Epilogue",
+    -apple-system,
+    BlinkMacSystemFont,
+    sans-serif;
 }
 h3 {
   font-size: 1.05rem;
@@ -163,6 +175,10 @@ p {
 }
 .btn-link:hover {
   text-decoration: underline;
+}
+
+.login-btn {
+  margin-top: 1.5rem;
 }
 
 /* ── Form Elements ──────────────────────────────────────────────── */
