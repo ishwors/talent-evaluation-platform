@@ -1,5 +1,5 @@
 """
-API tests for the Candidate Scoring Dashboard.
+API tests for the Candidate Assessment Dashboard.
 
 Covers:
 1. Candidate listing with filters

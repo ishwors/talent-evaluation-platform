@@ -60,7 +60,7 @@ export default function LoginPage() {
             </svg>
           </div>
           <h1>TalentScan</h1>
-          <p className="login-subtitle">Candidate Scoring Dashboard</p>
+          <p className="login-subtitle">Candidate Assessment Dashboard</p>
         </div>
 
         <form onSubmit={handleSubmit} className="login-form">

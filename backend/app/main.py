@@ -215,7 +215,7 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="Candidate Scoring Dashboard",
+    title="Candidate Assessment Dashboard",
     description="Internal candidate scoring and review dashboard for TalentScan's recruitment workflow.",
     version="1.0.0",
     lifespan=lifespan,
