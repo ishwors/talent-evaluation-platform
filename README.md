@@ -22,7 +22,7 @@ An internal candidate scoring and review dashboard built for Company's recruitme
 
 ```bash
 # Clone the repository
-git clone https://github.com/<your-username>/talent-evaluation-platform.git
+git clone https://github.com/ishwors/talent-evaluation-platform.git
 cd talent-evaluation-platform
 
 # Copy environment config and set a JWT secret
@@ -38,8 +38,8 @@ docker compose up --build -d
 ```bash
 docker compose ps
 # Expected:
-# techkraft-backend     Up (healthy)    0.0.0.0:8000->8000/tcp
-# techkraft-frontend    Up              0.0.0.0:5173->80/tcp
+# talentscan-backend     Up (healthy)    0.0.0.0:8000->8000/tcp
+# talentscan-frontend    Up              0.0.0.0:5173->80/tcp
 ```
 
 | Service | URL |
