@@ -36,12 +36,17 @@ async def seed_data():
 
         # Create admin user
         admin_id = str(uuid.uuid4())
+        admin_email = os.getenv("ADMIN_EMAIL", "admin@ishwors.com")
+        admin_password = os.getenv("ADMIN_PASSWORD")
+        if not admin_password:
+            raise ValueError("ADMIN_PASSWORD environment variable is not set")
+
         await db.execute(
             "INSERT INTO users (id, email, password_hash, role, name, created_at) VALUES (?, ?, ?, ?, ?, ?)",
             (
                 admin_id,
-                "admin@ishwors.com",
-                hash_password("admin123"),
+                admin_email,
+                hash_password(admin_password),
                 "admin",
                 "Admin User",
                 now,
@@ -197,7 +202,7 @@ async def seed_data():
 
         await db.commit()
         print("[OK] Database seeded with sample data")
-        print("   Admin: admin@ishwors.com / admin123")
+        print(f"   Admin: {admin_email} / [HIDDEN]")
         print("   Reviewer: reviewer@ishwors.com / reviewer123")
 
 

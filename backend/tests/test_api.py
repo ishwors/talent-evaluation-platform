@@ -17,6 +17,8 @@ import asyncio
 
 # Use a test-specific database
 os.environ["DATABASE_URL"] = "data/test.db"
+os.environ["ADMIN_PASSWORD"] = "admin123"
+os.environ["JWT_SECRET_KEY"] = "test-secret"
 
 # Ensure the backend app is importable
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
@@ -108,7 +110,7 @@ def test_registration_hardcodes_reviewer_role():
 def test_list_candidates_requires_auth():
     """Verify that the candidates endpoint requires authentication."""
     response = client.get("/api/candidates")
-    assert response.status_code == 403  # No token provided
+    assert response.status_code == 401  # No token provided
 
 
 def test_list_candidates_with_auth():

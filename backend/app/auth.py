@@ -16,7 +16,9 @@ from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 
-SECRET_KEY = os.getenv("JWT_SECRET_KEY", "dev-secret-change-in-production")
+SECRET_KEY = os.getenv("JWT_SECRET_KEY")
+if not SECRET_KEY:
+    raise ValueError("JWT_SECRET_KEY environment variable is not set")
 ALGORITHM = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", "480"))
 
@@ -61,21 +63,35 @@ def decode_access_token(token: str) -> dict:
         )
 
 
+from app.models import get_db
+import aiosqlite
+
 async def get_current_user(
     credentials: HTTPAuthorizationCredentials = Depends(security),
+    db: aiosqlite.Connection = Depends(get_db)
 ) -> dict:
     """FastAPI dependency that extracts and validates the current user from JWT."""
     payload = decode_access_token(credentials.credentials)
     user_id = payload.get("sub")
-    role = payload.get("role")
-    email = payload.get("email")
-    name = payload.get("name")
-    if not user_id or not role:
+    if not user_id:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Invalid token payload",
         )
-    return {"id": user_id, "role": role, "email": email, "name": name}
+
+    cursor = await db.execute(
+        "SELECT id, email, role, name FROM users WHERE id = ?",
+        (user_id,)
+    )
+    user = await cursor.fetchone()
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="User not found",
+        )
+
+    return {"id": user["id"], "role": user["role"], "email": user["email"], "name": user["name"]}
 
 
 def require_admin(current_user: dict = Depends(get_current_user)) -> dict:
